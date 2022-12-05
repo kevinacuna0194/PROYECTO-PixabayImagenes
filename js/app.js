@@ -11,13 +11,16 @@ function validarFormulario(e) {
     const terminoBusqueda = document.querySelector('#termino').value;
 
     if (terminoBusqueda === '') {
-        impirmirAlerta('Agrega un término de búsqueda');
+        mostrarAlerta('Agrega un término de búsqueda');
 
         return;
     }
+
+    /** Cuando pasemos la validación Buscaremos la imágenes en Pixabay */
+    buscarImagenes(terminoBusqueda);
 }
 
-function impirmirAlerta(mensaje) {
+function mostrarAlerta(mensaje) {
 
     const existeAlerta = document.querySelector('.bg-red-100')
 
@@ -37,4 +40,22 @@ function impirmirAlerta(mensaje) {
             alerta.remove();
         }, 3000);
     }
+}
+
+function buscarImagenes(termino) {
+    /** Puedes ver que tenemos este aquí está a pie en específico. Requiere que le pasemos una piqui. De esa forma identifican cuántas consultas estás haciendo  */
+    const key = '24423264-389224fa4f79c639625c30ad4';
+    const url = `https://pixabay.com/api/?key=${key}&q=${termino}`;
+
+    // console.log(url);
+
+    fetch(url)
+        .then(respuesta => respuesta.json())
+        .then(resultado => {
+            mostrarImagenes(resultado.hits);
+        })
+}
+
+function mostrarImagenes(imagenes) {
+    console.log(imagenes);
 }
